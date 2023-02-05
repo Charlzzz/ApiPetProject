@@ -17,7 +17,7 @@ def take_cookie(login):
         response = requests.post(url_take_cookie, data=params)
         cookie_value = response.cookies.get("auth_cookie")
         if check_cookie(cookie_value) == "You are authorized":
-            print("You are authorized")
+            print(check_cookie(cookie_value))
             return params
     print("Password not found")
 
