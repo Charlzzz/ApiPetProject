@@ -1,6 +1,7 @@
 import requests
 import pytest
 from lib.base_case import BaseCase
+from lib.assertions import Assertions
 
 class TestUserAuth(BaseCase):
     exclude_params = [
@@ -27,21 +28,22 @@ class TestUserAuth(BaseCase):
                                  headers={"x-csrf-token": self.token},
                                  cookies={"auth_sid": self.auth_sid})
 
-        assert "user_id" in response2.json(), "There is no user id in the second response"
-        user_id_from_check = response2.json()["user_id"]
-        print(user_id_from_check)
-        assert self.user_id_from_auth == user_id_from_check, "User id from auth method is not equal to user id from check"
+        Assertions.assert_json_value_by_name(response2,
+                                             "user_id",
+                                             self.user_id_from_auth,
+                                             "User id from auth method is not equal to user id from check")
 
     @pytest.mark.parametrize("condition", exclude_params)
     def test_negative_auth_check(self, condition):
 
         if condition == "no_cookie":
-            self.response2 = requests.get("https://playground.learnqa.ru/api/user/auth",
+            response2 = requests.get("https://playground.learnqa.ru/api/user/auth",
                                           headers={"x-csrf-token": self.token})
         else:
-            self.response2 = requests.get("https://playground.learnqa.ru/api/user/auth",
+            response2 = requests.get("https://playground.learnqa.ru/api/user/auth",
                                           cookies={"auth_sid": self.auth_sid})
+        Assertions.assert_json_value_by_name(response2,
+                                             "user_id",
+                                             0,
+                                             f"User is authorized with condition {condition}")
 
-        assert "user_id" in self.response2.json(), "There is no user id in the second response"
-        user_id_from_check = self.response2.json()["user_id"]
-        assert user_id_from_check == 0, f"User is authorized with condition {condition}"
