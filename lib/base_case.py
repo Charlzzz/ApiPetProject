@@ -1,5 +1,5 @@
 import json.decoder
-
+from faker import Faker
 from requests import Response
 class BaseCase:
 
@@ -20,5 +20,10 @@ class BaseCase:
         assert name in response_as_dict, f"Response JSON doesn`t have key '{name}'"
 
         return response_as_dict[name]
+
+    def take_fake_email(self):
+        fake = Faker()
+        email = fake.email()
+        return email
 
 
