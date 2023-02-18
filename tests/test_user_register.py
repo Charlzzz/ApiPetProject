@@ -5,14 +5,10 @@ from lib.assertions import Assertions
 
 class TestUserRegister(BaseCase):
 
-    def test_create_user_success(self):
-        data = {
-            'password': '123',
-            'username': 'learnqa',
-            'firstName': 'learnqa',
-            'lastName': 'learnqa',
-            'email': self.take_fake_email()
-        }
+    def test_create_user_success(self, take_fake_email):
+        email = take_fake_email
+        data = self.prepare_registration_data(email)
+        print(email)
         url = 'https://playground.learnqa.ru/api/user/'
         response = requests.post(url, data=data)
 
@@ -22,14 +18,7 @@ class TestUserRegister(BaseCase):
 
     def test_create_user_with_existing_email(self):
         email = 'vinkotov@example.com'
-        print(email)
-        data = {
-            'password': '123',
-            'username': 'learnqa',
-            'firstName': 'learnqa',
-            'lastName': 'learnqa',
-            'email': email
-        }
+        data = self.prepare_registration_data(email)
         url = 'https://playground.learnqa.ru/api/user/'
         response = requests.post(url, data=data)
 
