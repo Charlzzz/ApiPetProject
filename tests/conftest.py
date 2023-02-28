@@ -1,3 +1,5 @@
+
+
 import pytest
 import faker
 from faker import Faker
@@ -9,11 +11,11 @@ def faker_locale():
 
 
 @pytest.fixture()
-def take_fake_email(faker):
-
-    email = faker.unique.email()
-
-    return email
+def take_fake_email():
+    def take_fake_email():
+        fake = Faker()
+        return fake.email()
+    return take_fake_email()
 
 
 @pytest.fixture()
