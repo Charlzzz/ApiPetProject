@@ -44,10 +44,10 @@ class BaseCase:
     #     login = fake.word()
     #     return login
 
-    def prepare_registration_data(self, email):
-        # if email is None:
-        #     fake = Faker()
-        #     email = fake.email()
+    def prepare_registration_data(self, email=None):
+        if email is None:
+            fake = Faker()
+            email = fake.email()
         return {
             'password': '1234',
             'username': 'learnqa',
