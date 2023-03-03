@@ -25,7 +25,7 @@ class MyRequests():
         url = f"https://playground.learnqa.ru/api{url}"
 
         if headers is None:
-            headers =  {}
+            headers = {}
         if cookies is None:
             cookies = {}
 
